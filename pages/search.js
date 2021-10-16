@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Kenzi
  * @Date: 2021-08-11 19:24:56
- * @LastEditTime: 2021-08-12 17:13:53
+ * @LastEditTime: 2021-08-18 19:03:07
  * @LastEditors: Kenzi
  */
 import Headers from "./../components/Headers";
@@ -11,6 +11,42 @@ import { useRouter } from "next/dist/client/router";
 import { format } from "date-fns";
 import InfoCard from "../components/InfoCard";
 import Map from "./../components/Map";
+import { motion } from "framer-motion";
+
+//animations
+const infoContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      delay: 1.5,
+      staggerDirection: 1,
+      staggerChildren: 0.5,
+    },
+  },
+};
+
+const InfoItem = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 1 } },
+};
+
+const filterContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      delay: 1,
+      staggerDirection: 1,
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const filterItem = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 1 } },
+};
 
 function Search({ searchResults }) {
   const router = useRouter();
@@ -24,19 +60,45 @@ function Search({ searchResults }) {
       <Headers placeholder={`${location} | ${range} | ${noOfGuests}`} />
       <main className="flex">
         <section className="flex-grow pt-14 px-6">
-          <p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
             300+ Stays - {range} for {noOfGuests} guests
-          </p>
-          <h1 className="text-3xl font-semibold">{location}</h1>
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="text-3xl font-semibold"
+          >
+            {location}
+          </motion.h1>
 
-          <div className="hidden lg:inline-flex mb-5 space-x-3 text-gray-800 whitespace-nowrap ">
-            <p className="button">Cancellation Flexibility</p>
-            <p className="button">Type of place</p>
-            <p className="button">Rooms and Beds</p>
-            <p className="button">Cancellation Flexibility</p>
-          </div>
+          <motion.div
+            variants={filterContainer}
+            initial="hidden"
+            animate="show"
+            className="hidden lg:inline-flex mb-5 space-x-3 text-gray-800 whitespace-nowrap "
+          >
+            <motion.p variants={filterItem} className="button">
+              Cancellation Flexibility
+            </motion.p>
+            <motion.p variants={filterItem} className="button">
+              Type of place
+            </motion.p>
+            <motion.p variants={filterItem} className="button">
+              Rooms and Beds
+            </motion.p>
+          </motion.div>
 
-          <div className="flex flex-col">
+          <motion.div
+            variants={infoContainer}
+            initial="hidden"
+            animate="show"
+            className="flex flex-col"
+          >
             {searchResults?.map(
               ({ img, location, title, description, star, price, total }) => (
                 <InfoCard
@@ -48,14 +110,20 @@ function Search({ searchResults }) {
                   star={star}
                   price={price}
                   total={total}
+                  variants={InfoItem}
                 />
               )
             )}
-          </div>
+          </motion.div>
         </section>
-        <section className="hidden xl:inline-flex xl:min-w-[600px]">
+        <motion.section
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 2 }}
+          className="hidden xl:inline-flex xl:min-w-[600px]"
+        >
           <Map searchResults={searchResults} />
-        </section>
+        </motion.section>
       </main>
       <Footer />
     </div>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Kenzi
  * @Date: 2021-08-08 12:58:20
- * @LastEditTime: 2021-08-13 18:58:32
+ * @LastEditTime: 2021-09-05 16:49:27
  * @LastEditors: Kenzi
  */
 
@@ -17,13 +17,20 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { DateRangePicker } from "react-date-range";
 import { useRouter } from "next/dist/client/router";
+import Dropdown from "./Dropdown";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "../slices/userSlice";
+import { auth } from "../firebase";
 
-function Headers({ placeholder }) {
+function Headers({ placeholder, setOnLogin }) {
   const [searchInput, setSearchInput] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [noOfGuests, setNoOfGuests] = useState(1);
+  const [showDropdown, setShowDropdown] = useState(false);
+
   const router = useRouter();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const handleSelect = (ranges) => {
     setStartDate(ranges.selection.startDate);
@@ -53,10 +60,13 @@ function Headers({ placeholder }) {
   };
 
   return (
-    <header
-      id="headers"
-      className=" sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-5 md:px-10"
-    >
+    <header className=" sticky w-full top-0 z-10 grid grid-cols-3 bg-white shadow-md p-3 md:px-10">
+      <Dropdown
+        setOnLogin={setOnLogin}
+        showDropdown={showDropdown}
+        setShowDropdown={setShowDropdown}
+        isAuthenticated={isAuthenticated}
+      />
       {/* left */}
       <div
         onClick={() => router.push("/")}
@@ -84,9 +94,22 @@ function Headers({ placeholder }) {
       <div className="flex space-x-4 items-center justify-end text-gray-500">
         <p className="hidden md:inline">Become a host</p>
         <GlobeAltIcon className="h-6" />
-        <div className="flex items-center space-x-2 border-2 p-2 rounded-full cursor-pointer">
+        <div
+          className="flex items-center space-x-2 border-2 p-2 rounded-full cursor-pointer"
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
           <MenuIcon className="h-6" />
-          <UserCircleIcon className="h-6" />
+          {auth.currentUser ? (
+            <div className="flex -space-x-1 overflow-hidden">
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src={auth.currentUser.photoURL}
+                alt=""
+              />
+            </div>
+          ) : (
+            <UserCircleIcon className="h-6" />
+          )}
         </div>
       </div>
       {searchInput && (
