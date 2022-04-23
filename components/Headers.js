@@ -60,7 +60,7 @@ function Headers({ placeholder, setOnLogin }) {
   };
 
   return (
-    <header className=" sticky w-full top-0 z-10 grid grid-cols-3 bg-white shadow-md p-3 md:px-10">
+    <header className="sticky top-0 z-10 grid w-full grid-cols-3 p-3 bg-white shadow-md md:px-10">
       <Dropdown
         setOnLogin={setOnLogin}
         showDropdown={showDropdown}
@@ -70,7 +70,7 @@ function Headers({ placeholder, setOnLogin }) {
       {/* left */}
       <div
         onClick={() => router.push("/")}
-        className="relative flex items-center h-10 cursor-pointer my-auto "
+        className="relative flex items-center h-10 my-auto cursor-pointer "
       >
         <Image
           src="https://links.papareact.com/qd3"
@@ -80,29 +80,29 @@ function Headers({ placeholder, setOnLogin }) {
         />
       </div>
       {/* Middle */}
-      <div className="flex items-center outline-none md:border-2 rounded-full py-2 md:shadow-sm  ">
+      <div className="flex items-center py-2 rounded-full outline-none md:border-2 md:shadow-sm ">
         <input
           value={searchInput}
           type="text"
-          className=" flex-grow pl-5 bg-transparent outline-none text-sm text-gray-600 placeholder-gray-400"
+          className="flex-grow pl-5 text-sm text-gray-600 placeholder-gray-400 bg-transparent outline-none "
           placeholder={placeholder || "Start your search"}
           onChange={(e) => setSearchInput(e.target.value)}
         />
-        <SearchIcon className=" hidden md:inline-flex h-8 bg-red-400 text-white rounded-full p-2 cursor-pointer md:mx-2" />
+        <SearchIcon className="hidden h-8 p-2 text-white bg-red-400 rounded-full cursor-pointer md:inline-flex md:mx-2" />
       </div>
       {/* Right */}
-      <div className="flex space-x-4 items-center justify-end text-gray-500">
+      <div className="flex items-center justify-end space-x-4 text-gray-500">
         <p className="hidden md:inline">Become a host</p>
         <GlobeAltIcon className="h-6" />
         <div
-          className="flex items-center space-x-2 border-2 p-2 rounded-full cursor-pointer"
+          className="flex items-center p-2 space-x-2 border-2 rounded-full cursor-pointer"
           onClick={() => setShowDropdown(!showDropdown)}
         >
           <MenuIcon className="h-6" />
           {auth.currentUser ? (
             <div className="flex -space-x-1 overflow-hidden">
               <img
-                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                className="inline-block w-6 h-6 rounded-full ring-2 ring-white"
                 src={auth.currentUser.photoURL}
                 alt=""
               />
@@ -120,8 +120,8 @@ function Headers({ placeholder, setOnLogin }) {
             rangeColors={["#FD5C60"]}
             onChange={handleSelect}
           />
-          <div className="flex items-center border-b mb-4">
-            <h2 className="text-2xl  flex-grow font-semibold">
+          <div className="flex items-center mb-4 border-b">
+            <h2 className="flex-grow text-2xl font-semibold">
               Number of Guests
             </h2>
             <UsersIcon className="h-5" />
@@ -129,7 +129,7 @@ function Headers({ placeholder, setOnLogin }) {
               value={noOfGuests}
               onChange={(e) => setNoOfGuests(e.target.value)}
               type="number"
-              className="w-12 pl-2 text-lg outline-none text-red-400"
+              className="w-12 pl-2 text-lg text-red-400 outline-none"
             />
           </div>
           <div className="flex ">

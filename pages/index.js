@@ -38,43 +38,11 @@ const item = {
 
 export default function Home({ exploreData, cardsData }) {
   const dispatch = useDispatch();
-  const ref = useRef();
-  const { scrollYProgress } = useViewportScroll(ref);
-
-  const yRange = useTransform(scrollYProgress, [0, 1], [0, 100]);
-
-  const [currentPercent, setCurrentPercent] = useState(0);
-
-  useEffect(() => {
-    yRange.onChange((v) => {
-      setCurrentPercent(Math.trunc(yRange.current));
-    });
-  }, [yRange]);
-
-  useEffect(() => {
-    //刷新前保留目前scrollYProgress
-    window.onbeforeunload = function (event) {
-      localStorage.setItem("scrollYProgress", currentPercent);
-    };
-
-    //設定初始scrollYProgress
-    const lastScrollYProgress = localStorage.getItem("scrollYProgress");
-    setCurrentPercent(lastScrollYProgress);
-
-    const user = auth.currentUser;
-    console.log("user :>> ", user);
-
-    if (user) {
-      dispatch(setIsAuthenticated(true));
-    } else {
-      dispatch(setIsAuthenticated(false));
-    }
-  }, []);
 
   const [onLogin, setOnLogin] = useState(false);
 
   return (
-    <div id="homePage" ref={ref}>
+    <div id="homePage">
       <Head>
         <title>airbnb-clone</title>
         <link rel="icon" href="/favicon.ico" />
@@ -86,20 +54,25 @@ export default function Home({ exploreData, cardsData }) {
 
       {onLogin && <Login setOnLogin={setOnLogin} />}
 
-      <main className="w-full mx-auto px-8 sm:px-16 ">
-        <section className="pt-6">
+      <main className="w-full px-8 mx-auto sm:px-16 ">
+        <motion.section className="pt-6"
+
+        >
           <motion.h2
             initial={{ opacity: 0 }}
-            animate={currentPercent > 15 ? { opacity: 1 } : false}
-            transition={{ ease: "easeIn", duration: 1 }}
-            className="text-4xl font-semibold pb-5"
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+
+
+            className="pb-5 text-4xl font-semibold"
           >
             Explore Nearby
           </motion.h2>
           <motion.div
-            variants={container}
-            initial="hidden"
-            animate={currentPercent > 20 ? "show" : false}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           >
             {exploreData?.map(({ img, distance, location }, index) => (
@@ -113,22 +86,20 @@ export default function Home({ exploreData, cardsData }) {
               />
             ))}
           </motion.div>
-        </section>
+        </motion.section>
         <section>
           <motion.h2
+
+            className="pb-5 text-4xl font-semibold"
             initial={{ opacity: 0 }}
-            animate={currentPercent > 25 ? { opacity: 1 } : false}
-            transition={{ ease: "easeIn", duration: 1 }}
-            className="text-4xl font-semibold pb-5"
-            className="text-4xl font-semibold py-8"
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
           >
             Live Anywhere
           </motion.h2>
           <motion.div
-            variants={container}
-            initial="hidden"
-            animate={currentPercent > 30 ? "show" : false}
-            className="flex space-x-3  overflow-scroll scrollbar-hide  md:justify-evenly"
+
+            className="flex space-x-3 overflow-scroll scrollbar-hide md:justify-evenly"
           >
             {cardsData?.map(({ img, title }) => (
               <MediumCard key={img} img={img} title={title} variants={item} />
@@ -136,9 +107,7 @@ export default function Home({ exploreData, cardsData }) {
           </motion.div>
         </section>
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={currentPercent > 60 ? { opacity: 1 } : false}
-          transition={{ ease: "easeIn", duration: 1 }}
+
         >
           <LargeCard
             img="http://links.papareact.com/4cj"
@@ -149,7 +118,7 @@ export default function Home({ exploreData, cardsData }) {
         </motion.div>
       </main>
 
-      <Footer currentPercent={currentPercent} />
+      <Footer />
     </div>
   );
 }

@@ -13,14 +13,18 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-function SmallCard({ img, location, distance, variants }) {
+function SmallCard({ img, location, distance, variants, index }) {
   return (
     <motion.div
-      variants={variants}
-      className="slide flex items-center m-2 mt-5 space-x-4 rounded-lg cursor-pointer hover:bg-gray-100 hover:scale-105 transition transform duration-200 ease-out "
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 1, delay: index * 0.1 }}
+      viewport={{ once: true }}
+
+      className="flex items-center m-2 mt-5 space-x-4 transition duration-200 ease-out transform rounded-lg cursor-pointer slide hover:bg-gray-100 hover:scale-105 "
     >
       {/* left */}
-      <div className="relative h-16 w-16">
+      <div className="relative w-16 h-16">
         <Image src={img} layout="fill" className="rounded-lg" />
       </div>
       {/* right */}
