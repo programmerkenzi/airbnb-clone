@@ -59,7 +59,7 @@ function Search({ searchResults }) {
     <div>
       <Headers placeholder={`${location} | ${range} | ${noOfGuests}`} />
       <main className="flex">
-        <section className="flex-grow pt-14 px-6">
+        <section className="flex-grow px-6 pt-14">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -80,7 +80,7 @@ function Search({ searchResults }) {
             variants={filterContainer}
             initial="hidden"
             animate="show"
-            className="hidden lg:inline-flex mb-5 space-x-3 text-gray-800 whitespace-nowrap "
+            className="hidden mb-5 space-x-3 text-gray-800 lg:inline-flex whitespace-nowrap "
           >
             <motion.p variants={filterItem} className="button">
               Cancellation Flexibility
@@ -133,7 +133,7 @@ function Search({ searchResults }) {
 export default Search;
 
 export async function getServerSideProps() {
-  const searchResults = await fetch("https://links.papareact.com/isz").then(
+  const searchResults = await fetch("https://www.jsonkeeper.com/b/5NPS").then(
     (res) => res.json()
   );
   return {

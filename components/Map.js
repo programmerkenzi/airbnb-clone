@@ -36,7 +36,7 @@ function Map({ searchResults }) {
     <ReactMapGL
       {...viewport}
       mapStyle="mapbox://styles/a23g32/cks8oa2fq26hg17quxfi5gbym"
-      mapboxApiAccessToken={process.env.mapbox_key}
+      mapboxApiAccessToken={process.env.MAPBOX_ACCESS_TOKEN}
       onViewportChange={(viewport) => setViewport(viewport)}
     >
       {searchResults.map((result) => (
@@ -49,7 +49,7 @@ function Map({ searchResults }) {
           >
             <p
               onClick={() => setSelectedLocation(result)}
-              className="cursor-pointer text-2xl animate-bounce"
+              className="text-2xl cursor-pointer animate-bounce"
               aria-label="push-pin"
             >
               📌
